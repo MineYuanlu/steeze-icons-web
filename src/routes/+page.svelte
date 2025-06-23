@@ -25,7 +25,7 @@
 <UrlSearchBind key="pkg" fst={defaultPkg} bind:value={selectedPkg} />
 <UrlSearchBind key="theme" default={theme[0]} bind:value={nowTheme} />
 
-<div class="flex h-screen w-screen flex-col">
+<div class="flex h-screen w-full flex-col">
 	<!-- 包列表 -->
 	<div class="flex w-full flex-wrap items-center justify-center gap-2 py-1">
 		{#each getIconPkgList() as pkg (pkg)}

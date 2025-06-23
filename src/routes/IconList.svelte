@@ -31,7 +31,7 @@
 </script>
 
 <div
-	class="flex w-full flex-1 flex-wrap items-center justify-center gap-2 p-5"
+	class="flex w-full flex-1 flex-wrap items-center justify-around gap-2 p-5"
 	onmouseleave={() => {
 		if (!infoSelSelected) infoSelName = undefined;
 	}}
