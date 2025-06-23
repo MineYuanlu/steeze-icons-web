@@ -1,0 +1,8 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"pMainTitle": "Steeze UI 图标可视化 - {name}",
+	"pMainPkgLink": "包源码",
+	"pMainSrcLink": "图标源码",
+	"pMainWebLink": "图标网站",
+	"loading": "加载中..."
+}

@@ -3,6 +3,7 @@
 	import { Icon } from '@steeze-ui/svelte-icon';
 	import UrlSearchBind from './UrlSearchBind.svelte';
 	import { untrack } from 'svelte';
+	import { m } from '$lib/paraglide/messages';
 
 	const defaultPkg = getIconPkgList()[0];
 
@@ -25,7 +26,7 @@
 </script>
 
 <svelte:head>
-	<title>Steeze UI 图标可视化 - {selectedPkg}</title>
+	<title>{m.title({ name: selectedPkg })}</title>
 </svelte:head>
 
 <UrlSearchBind key="pkg" fst={defaultPkg} bind:value={selectedPkg} />
@@ -51,7 +52,7 @@
 
 	<!-- 简介 -->
 	<div class="flex w-full flex-wrap items-center justify-center gap-2 py-1">
-		{#each [['包源码', pkg], ['图标源码', src], ['图标网站', web]] as const as [label, href]}
+		{#each [[m.pMainPkgLink(), pkg], [m.pMainSrcLink(), src], [m.pMainWebLink(), web]] as const as [label, href]}
 			<a
 				class="inline-block border-b py-1 transition-colors duration-200 ease-in-out hover:border-blue-600 hover:text-blue-600"
 				{href}
@@ -79,7 +80,7 @@
 	<!-- 图标列表 -->
 	<div class="flex w-full flex-1 flex-wrap items-center justify-center gap-2 p-5">
 		{#await imp()}
-			<div class="text-3xl">LOADING...</div>
+			<div class="text-3xl">{m.loading()}</div>
 		{:then icons}
 			{#each Object.entries(icons).sort( ([nameA], [nameB]) => nameA.localeCompare(nameB), ) as [iconName, icon] (iconName)}
 				<button

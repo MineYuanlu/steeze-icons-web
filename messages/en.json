@@ -1,0 +1,8 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"title": "Steeze UI Icons View - {name}",
+	"pMainPkgLink": "Package",
+	"pMainSrcLink": "Source",
+	"pMainWebLink": "Website",
+	"loading": "Loading..."
+}
