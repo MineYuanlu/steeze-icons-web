@@ -2,11 +2,17 @@
 	import { getIconInfo, getIconPkgList, type IconPkg } from '$lib/components/icons';
 	import { Icon } from '@steeze-ui/svelte-icon';
 	import UrlSearchBind from './UrlSearchBind.svelte';
+	import { untrack } from 'svelte';
 
 	const defaultPkg = getIconPkgList()[0];
 
 	let selectedPkg = $state<IconPkg>(defaultPkg);
 	const { pkg, src, web, theme, imp } = $derived(getIconInfo(selectedPkg));
+
+	let nowTheme = $derived.by(() => {
+		if (!selectedPkg) return '';
+		return untrack(() => theme[0]);
+	});
 
 	function copyToClipboard(text: string) {
 		const el = document.createElement('textarea');
@@ -23,6 +29,7 @@
 </svelte:head>
 
 <UrlSearchBind key="pkg" fst={defaultPkg} bind:value={selectedPkg} />
+<UrlSearchBind key="theme" default={theme[0]} bind:value={nowTheme} />
 
 <div class="flex h-screen w-screen flex-col">
 	<!-- 包列表 -->
@@ -53,6 +60,20 @@
 				{label}
 			</a>
 		{/each}
+		<div class="ml-2 overflow-hidden rounded border">
+			{#each theme as t, i (t)}
+				<button
+					class={[
+						'inline-block px-3 py-1 transition-colors duration-200 ease-in-out ',
+						i && 'border-l',
+						t === nowTheme ? 'bg-amber-500 text-gray-50' : 'cursor-pointer hover:bg-gray-100',
+					]}
+					onclick={() => (nowTheme = t)}
+				>
+					{t}
+				</button>
+			{/each}
+		</div>
 	</div>
 
 	<!-- 图标列表 -->
@@ -67,7 +88,7 @@
 						copyToClipboard(iconName);
 					}}
 				>
-					<Icon class="mx-1.5 mt-1.5 size-17" src={icon} />
+					<Icon class="mx-1.5 mt-1.5 size-17" src={icon} theme={nowTheme} />
 					<span class="w-full text-sm wrap-anywhere">{iconName}</span>
 				</button>
 			{/each}

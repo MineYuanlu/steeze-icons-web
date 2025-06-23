@@ -10,11 +10,21 @@
 		pushMode = false,
 		fst,
 	}: {
+		/** 绑定的键 */
 		key: string;
+		/** 绑定的值 */
 		value: string;
+		/**
+		 * 默认值
+		 * - 如果value为此值, 则删除searchParams中的key;
+		 * - 如果searchParams中不存在key, 则使用此值初始化value
+		 */
 		default?: string;
+		/** 组件卸载时是否清除searchParams中的key */
 		clearOnUnmount?: boolean;
+		/** 是否使用pushState模式更新url, false则使用replaceState模式 */
 		pushMode?: boolean;
+		/** 首次绑定的值: 如果提供此值, 同时初始化时searchParams中不存在key, 则设置value为此值 */
 		fst?: string;
 	} = $props();
 
