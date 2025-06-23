@@ -15,4 +15,8 @@ export default defineConfig({
 			strategy: ['cookie', 'preferredLanguage', 'baseLocale'],
 		}),
 	],
+	build: {
+		sourcemap: true,
+		manifest: true,
+	},
 });
