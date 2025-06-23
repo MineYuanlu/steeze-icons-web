@@ -4,6 +4,8 @@
 	import UrlSearchBind from './UrlSearchBind.svelte';
 	import { untrack } from 'svelte';
 	import { m } from '$lib/paraglide/messages';
+	import Info from './Info.svelte';
+	import IconList from './IconList.svelte';
 
 	const defaultPkg = getIconPkgList()[0];
 
@@ -14,15 +16,6 @@
 		if (!selectedPkg) return '';
 		return untrack(() => theme[0]);
 	});
-
-	function copyToClipboard(text: string) {
-		const el = document.createElement('textarea');
-		el.value = text;
-		document.body.appendChild(el);
-		el.select();
-		document.execCommand('copy');
-		document.body.removeChild(el);
-	}
 </script>
 
 <svelte:head>
@@ -78,21 +71,11 @@
 	</div>
 
 	<!-- 图标列表 -->
-	<div class="flex w-full flex-1 flex-wrap items-center justify-center gap-2 p-5">
-		{#await imp()}
+	{#await imp()}
+		<div class="flex w-full flex-1 items-center justify-center">
 			<div class="text-3xl">{m.loading()}</div>
-		{:then icons}
-			{#each Object.entries(icons).sort( ([nameA], [nameB]) => nameA.localeCompare(nameB), ) as [iconName, icon] (iconName)}
-				<button
-					class="h-24.5 w-20 cursor-pointer overflow-hidden rounded border transition-colors duration-200 ease-in-out hover:bg-gray-100"
-					onclick={() => {
-						copyToClipboard(iconName);
-					}}
-				>
-					<Icon class="mx-1.5 mt-1.5 size-17" src={icon} theme={nowTheme} />
-					<span class="w-full text-sm wrap-anywhere">{iconName}</span>
-				</button>
-			{/each}
-		{/await}
-	</div>
+		</div>
+	{:then icons}
+		<IconList {icons} theme={nowTheme} pkg={selectedPkg} />
+	{/await}
 </div>
