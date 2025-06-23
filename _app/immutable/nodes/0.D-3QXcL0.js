@@ -1,2 +1,2 @@
 import{c as s,a as i}from"../chunks/CRyPKIUv.js";import{b as c,E as f,d as p,n as l,e as d,h as u,f as _,g as m}from"../chunks/DWO2R0yX.js";function h(n,t,...e){var r=n,o=l,a;c(()=>{o!==(o=t())&&(a&&(d(a),a=null),a=p(()=>o(r,...e)))},f),u&&(r=_)}const v=!0,g=Object.freeze(Object.defineProperty({__proto__:null,prerender:v},Symbol.toStringTag,{value:"Module"}));function E(n,t){var e=s(),r=m(e);h(r,()=>t.children),i(n,e)}export{E as component,g as universal};
-//# sourceMappingURL=0.iNeu9y16.js.map
+//# sourceMappingURL=0.D-3QXcL0.js.map
