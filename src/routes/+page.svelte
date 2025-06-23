@@ -4,8 +4,8 @@
 	import UrlSearchBind from './UrlSearchBind.svelte';
 	import { untrack } from 'svelte';
 	import { m } from '$lib/paraglide/messages';
-	import Info from './Info.svelte';
 	import IconList from './IconList.svelte';
+	import { building } from '$app/environment';
 
 	const defaultPkg = getIconPkgList()[0];
 
@@ -19,7 +19,7 @@
 </script>
 
 <svelte:head>
-	<title>{m.title({ name: selectedPkg })}</title>
+	<title>{m.pMainTitle({ name: building ? '' : selectedPkg })}</title>
 </svelte:head>
 
 <UrlSearchBind key="pkg" fst={defaultPkg} bind:value={selectedPkg} />
