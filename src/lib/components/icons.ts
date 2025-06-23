@@ -132,9 +132,12 @@ export type IconPkg = (typeof icons)[number]['name'];
 export function getIconPkgList(): IconPkg[] {
 	return icons.map((i) => i.name);
 }
-export function getIconInfo(name: IconPkg): IconInfo;
-export function getIconInfo(name: string): IconInfo | undefined {
-	return icons.find((i) => i.name === name);
+export function getIconInfo(name: IconPkg): IconInfo {
+	const info = icons.find((i) => i.name === name)!;
+	return {
+		...info,
+		imp: replaceImp(name, info.imp),
+	};
 }
 export function isIconSource(src: unknown): src is IconSource {
 	if (typeof src !== 'object' || src === null) return false;
@@ -160,4 +163,17 @@ export function isIconSource(src: unknown): src is IconSource {
 			else return false;
 		});
 	});
+}
+const impCache = new Map<IconPkg, Promise<Record<string, IconSource>>>();
+function replaceImp(name: IconPkg, imp: () => Promise<Record<string, IconSource>>) {
+	return async () => {
+		if (impCache.has(name)) {
+			const result = impCache.get(name)!;
+			await new Promise((r) => setTimeout(r));
+			return result;
+		}
+		const promise = imp();
+		impCache.set(name, promise);
+		return promise;
+	};
 }
