@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { getIconInfo, getIconPkgList, type IconPkg } from '$lib/components/icons';
-	import { Icon } from '@steeze-ui/svelte-icon';
 	import UrlSearchBind from './UrlSearchBind.svelte';
 	import { untrack } from 'svelte';
 	import { m } from '$lib/paraglide/messages';
@@ -16,6 +15,8 @@
 		if (!selectedPkg) return '';
 		return untrack(() => theme[0]);
 	});
+
+	let searchTxt = $state<string>('');
 </script>
 
 <svelte:head>
@@ -68,6 +69,11 @@
 				</button>
 			{/each}
 		</div>
+		<input
+			bind:value={searchTxt}
+			class="ml-2 inline-block w-80 rounded border px-2 py-1"
+			placeholder={m.pMainSearchPlaceholder()}
+		/>
 	</div>
 
 	<!-- 图标列表 -->
@@ -76,6 +82,6 @@
 			<div class="text-3xl">{m.loading()}</div>
 		</div>
 	{:then icons}
-		<IconList {icons} theme={nowTheme} pkg={selectedPkg} />
+		<IconList {icons} theme={nowTheme} pkg={selectedPkg} {searchTxt} />
 	{/await}
 </div>

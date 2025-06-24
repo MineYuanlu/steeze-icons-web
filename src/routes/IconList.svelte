@@ -6,10 +6,12 @@
 		icons,
 		theme,
 		pkg,
+		searchTxt = '',
 	}: {
 		icons: Record<string, IconSource>;
 		theme: string;
 		pkg: string;
+		searchTxt?: string;
 	} = $props();
 
 	let infoSelName = $state<string>();
@@ -28,6 +30,17 @@
 		}
 		return `${isTop ? 't' : 'b'}${isLeft ? 'l' : 'r'}`;
 	}
+
+	function search(name: string): boolean {
+		if (!searchTxt) return true;
+		name = name.toLowerCase();
+		let idx = 0;
+		for (const c of searchTxt.toLowerCase()) {
+			idx = name.indexOf(c, idx);
+			if (idx === -1) return false;
+		}
+		return true;
+	}
 </script>
 
 <div
@@ -38,40 +51,42 @@
 	role="group"
 >
 	{#each Object.entries(icons).sort( ([nameA], [nameB]) => nameA.localeCompare(nameB), ) as [iconName, icon] (iconName)}
-		<button
-			class={[
-				'h-24.5 w-20 cursor-pointer overflow-hidden rounded border border-gray-800 transition-colors duration-200 ease-in-out ',
-				infoSelSelected && infoSelName === iconName ? 'bg-blue-200' : 'hover:bg-gray-100',
-			]}
-			onclick={(e) => {
-				// copyToClipboard(iconName);
-				if (infoSelSelected) {
-					if (infoSelName === iconName) {
-						infoSelName = undefined;
-						infoSelSelected = false;
+		{#if search(iconName)}
+			<button
+				class={[
+					'h-24.5 w-20 cursor-pointer overflow-hidden rounded border border-gray-800 transition-colors duration-200 ease-in-out ',
+					infoSelSelected && infoSelName === iconName ? 'bg-blue-200' : 'hover:bg-gray-100',
+				]}
+				onclick={(e) => {
+					// copyToClipboard(iconName);
+					if (infoSelSelected) {
+						if (infoSelName === iconName) {
+							infoSelName = undefined;
+							infoSelSelected = false;
+						} else {
+							infoSelName = iconName;
+						}
 					} else {
 						infoSelName = iconName;
+						infoSelSelected = true;
 					}
-				} else {
-					infoSelName = iconName;
-					infoSelSelected = true;
-				}
-				infoSelPos = getClickPos(e, true);
-			}}
-			onmouseenter={(e) => {
-				if (!infoSelSelected) {
-					infoSelName = iconName;
 					infoSelPos = getClickPos(e, true);
-				}
-				infoSelHovered = true;
-			}}
-			onmouseleave={() => {
-				infoSelHovered = false;
-			}}
-		>
-			<Icon class="mx-1.5 mt-1.5 size-17" src={icon} {theme} />
-			<span class="w-full text-sm wrap-anywhere">{iconName}</span>
-		</button>
+				}}
+				onmouseenter={(e) => {
+					if (!infoSelSelected) {
+						infoSelName = iconName;
+						infoSelPos = getClickPos(e, true);
+					}
+					infoSelHovered = true;
+				}}
+				onmouseleave={() => {
+					infoSelHovered = false;
+				}}
+			>
+				<Icon class="mx-1.5 mt-1.5 size-17" src={icon} {theme} />
+				<span class="w-full text-sm wrap-anywhere">{iconName}</span>
+			</button>
+		{/if}
 	{/each}
 </div>
 
