@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { Clipboard, XCircle, XMark } from '@steeze-ui/heroicons';
+	import { XMark } from '@steeze-ui/heroicons';
 	import { Icon, type IconSource } from '@steeze-ui/svelte-icon';
-	import Code from './Code.svelte';
+	import Copy from './Copy.svelte';
 
 	const {
 		pos,
@@ -44,7 +44,15 @@
 	</div>
 	<Icon class="size-100 border-t border-b" src={icon} {theme} />
 	<div class="flex flex-1 flex-col justify-around">
-		<Code content="npm i -D {pkg}" />
-		<Code content={name} />
+		{#snippet code(content: string)}
+			<div class="mx-1 flex items-start rounded-xl border border-gray-700 bg-gray-50 p-2">
+				<div class="flex-1 wrap-anywhere">
+					{content}
+				</div>
+				<Copy {content} />
+			</div>
+		{/snippet}
+		{@render code(`npm i -D ${pkg}`)}
+		{@render code(name)}
 	</div>
 </div>
